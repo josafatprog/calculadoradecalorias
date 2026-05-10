@@ -5,76 +5,154 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Calorías</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="card">
-            <h1>🔥 Calculadora de Calorías</h1>
-            <p class="subtitle">Calcula tu balance calórico diario</p>
-            
-            <form id="formulario">
-                <div class="input-group">
-                    <label for="cal_ingeridas">¿Cuántas calorías comiste?</label>
-                    <input type="number" id="cal_ingeridas" name="cal_ingeridas" placeholder="Ej: 2500" required>
-                </div>
+    <div class="app">
+        <!-- HEADER -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">🔥 Balance Calórico</h1>
+                <button class="btn-historial" id="btnHistorial">📊 Historial</button>
+            </div>
+        </header>
 
-                <div class="input-group">
-                    <label for="cal_caminata">¿Cuántas kcal quemaste caminando?</label>
-                    <input type="number" id="cal_caminata" name="cal_caminata" placeholder="Ej: 300" value="0">
-                </div>
-
-                <div class="checkbox-group">
-                    <label>
-                        <input type="checkbox" id="fue_gym" name="fue_gym">
-                        ¿Fuiste al gym?
-                    </label>
-                </div>
-
-                <div id="gym_options" class="hidden">
-                    <div class="checkbox-group">
-                        <label>
-                            <input type="checkbox" id="hizo_cardio" name="hizo_cardio">
-                            ¿Hiciste cardio?
-                        </label>
-                    </div>
+        <!-- MAIN PAGE -->
+        <main id="mainPage" class="main-page">
+            <div class="container">
+                <section class="card input-section">
+                    <h2>Hoy, <span id="fechaHoy"></span></h2>
                     
-                    <div id="cardio_input" class="hidden input-group">
-                        <label for="cal_cardio">¿Cuántas kcal quemaste en cardio?</label>
-                        <input type="number" id="cal_cardio" name="cal_cardio" placeholder="Ej: 400" value="0">
-                    </div>
-                </div>
+                    <form id="formulario">
+                        <div class="input-group">
+                            <label for="cal_ingeridas">Calorías consumidas</label>
+                            <input type="number" id="cal_ingeridas" placeholder="Ej: 2500" required>
+                        </div>
 
-                <div class="checkbox-group">
-                    <label>
-                        <input type="checkbox" id="hizo_extra" name="hizo_extra">
-                        ¿Hiciste otra actividad pesada/extra?
-                    </label>
-                </div>
+                        <div class="divider"></div>
 
-                <div id="extra_input" class="hidden input-group">
-                    <label for="cal_extra">¿Cuántas kcal quemaste en esta actividad?</label>
-                    <input type="number" id="cal_extra" name="cal_extra" placeholder="Ej: 200" value="0">
-                </div>
+                        <h3 class="section-title">Actividades</h3>
 
-                <button type="submit" class="btn-calcular">Calcular Balance</button>
-            </form>
+                        <div class="input-group">
+                            <label for="cal_caminata">Caminata</label>
+                            <div class="input-with-unit">
+                                <input type="number" id="cal_caminata" placeholder="0" value="0">
+                                <span class="unit">kcal</span>
+                            </div>
+                        </div>
 
-            <div id="resultado" class="resultado hidden">
-                <h2>Resultados</h2>
-                <div class="resultado-content">
-                    <div class="stat">
-                        <span class="label">Calorías Quemadas:</span>
-                        <span class="value" id="cal_quemadas_resultado">0</span>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" id="fue_gym">
+                                ¿Fuiste al gym?
+                            </label>
+                        </div>
+
+                        <div id="gym_options" class="hidden">
+                            <div class="checkbox-group">
+                                <label>
+                                    <input type="checkbox" id="hizo_cardio">
+                                    Cardio
+                                </label>
+                            </div>
+                            
+                            <div id="cardio_input" class="hidden input-group">
+                                <label for="cal_cardio">Cardio quemado</label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="cal_cardio" placeholder="0" value="0">
+                                    <span class="unit">kcal</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" id="hizo_extra">
+                                Otra actividad
+                            </label>
+                        </div>
+
+                        <div id="extra_input" class="hidden input-group">
+                            <label for="cal_extra">Actividad quemada</label>
+                            <div class="input-with-unit">
+                                <input type="number" id="cal_extra" placeholder="0" value="0">
+                                <span class="unit">kcal</span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-calcular">Guardar hoy</button>
+                    </form>
+                </section>
+
+                <section id="resultado" class="card resultado hidden">
+                    <div class="resultado-header">
+                        <h2>Resultado del día</h2>
+                        <span class="resultado-badge" id="resultadoBadge">Mantenimiento</span>
                     </div>
-                    <div class="stat">
-                        <span class="label">Estado:</span>
-                        <span class="value" id="estado_resultado">-</span>
+
+                    <div class="resultado-main">
+                        <div class="balance-box" id="balanceBox">
+                            <span class="balance-value" id="balanceValue">0 kcal</span>
+                            <span class="balance-label" id="balanceLabel">Mantenimiento</span>
+                        </div>
                     </div>
-                    <div class="stat balance">
-                        <span class="label">Balance:</span>
-                        <span class="value" id="balance_resultado">0 kcal</span>
+
+                    <div class="resultado-grid">
+                        <div class="stat-item">
+                            <span class="stat-label">Consumido</span>
+                            <span class="stat-value" id="cal_consumido">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Quemado</span>
+                            <span class="stat-value" id="cal_quemado">0</span>
+                        </div>
                     </div>
-                </div>
+
+                    <div class="actividades-desglose">
+                        <h4>Desglose de actividades</h4>
+                        <div id="actividadesDetalle" class="actividades-list"></div>
+                    </div>
+
+                    <button class="btn-eliminar" id="btnEliminarHoy">🗑️ Eliminar registro de hoy</button>
+                </section>
+            </div>
+        </main>
+
+        <!-- HISTORY PAGE -->
+        <div id="historialPage" class="historial-page hidden">
+            <div class="container">
+                <header class="historial-header">
+                    <button class="btn-volver" id="btnVolver">← Atrás</button>
+                    <h1>Historial</h1>
+                </header>
+
+                <section class="card estadisticas-section">
+                    <h2>Últimos 7 días</h2>
+                    
+                    <div class="chart-container">
+                        <canvas id="chart"></canvas>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-number" id="diasDeficit">0</span>
+                            <span class="stat-text">Días déficit</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number" id="diasSuperavit">0</span>
+                            <span class="stat-text">Días superávit</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number" id="promedioCalorico">0</span>
+                            <span class="stat-text">Promedio kcal</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card registros-section">
+                    <h2>Registros</h2>
+                    <div id="registrosList" class="registros-list"></div>
+                </section>
             </div>
         </div>
     </div>

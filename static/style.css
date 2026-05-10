@@ -1,0 +1,201 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+}
+
+.card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    padding: 40px;
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 28px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.input-group input[type="number"],
+.input-group input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.input-group input[type="number"]:focus,
+.input-group input[type="text"]:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.checkbox-group {
+    margin-bottom: 20px;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    color: #333;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    accent-color: #667eea;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.btn-calcular {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 10px;
+}
+
+.btn-calcular:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+}
+
+.btn-calcular:active {
+    transform: translateY(0);
+}
+
+.resultado {
+    margin-top: 30px;
+    padding: 25px;
+    background: #f5f5f5;
+    border-radius: 10px;
+    border-left: 5px solid #667eea;
+}
+
+.resultado h2 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.resultado-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.stat:last-child {
+    border-bottom: none;
+}
+
+.stat .label {
+    color: #666;
+    font-weight: 500;
+}
+
+.stat .value {
+    color: #667eea;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.stat.balance .value {
+    font-size: 20px;
+}
+
+.stat.balance.deficit .value {
+    color: #e74c3c;
+}
+
+.stat.balance.superavit .value {
+    color: #27ae60;
+}
+
+.stat.balance.mantenimiento .value {
+    color: #f39c12;
+}
+
+@media (max-width: 480px) {
+    .card {
+        padding: 25px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .input-group label {
+        font-size: 13px;
+    }
+}

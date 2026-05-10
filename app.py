@@ -20,7 +20,7 @@ def calcular():
         cal_extra = int(data.get('cal_extra', 0))
         
         # Cálculo de calorías quemadas
-        cal_quemadas = 1900 + cal_caminata  # 1900 = BMR baseline (metabolismo basal)
+        cal_quemadas = 1850 + cal_caminata  # 1850 = BMR baseline (metabolismo basal)
         
         if fue_gym:
             cal_quemadas += 300

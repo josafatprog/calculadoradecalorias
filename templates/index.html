@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Calorías</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>🔥 Calculadora de Calorías</h1>
+            <p class="subtitle">Calcula tu balance calórico diario</p>
+            
+            <form id="formulario">
+                <div class="input-group">
+                    <label for="cal_ingeridas">¿Cuántas calorías comiste?</label>
+                    <input type="number" id="cal_ingeridas" name="cal_ingeridas" placeholder="Ej: 2500" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="cal_caminata">¿Cuántas kcal quemaste caminando?</label>
+                    <input type="number" id="cal_caminata" name="cal_caminata" placeholder="Ej: 300" value="0">
+                </div>
+
+                <div class="checkbox-group">
+                    <label>
+                        <input type="checkbox" id="fue_gym" name="fue_gym">
+                        ¿Fuiste al gym?
+                    </label>
+                </div>
+
+                <div id="gym_options" class="hidden">
+                    <div class="checkbox-group">
+                        <label>
+                            <input type="checkbox" id="hizo_cardio" name="hizo_cardio">
+                            ¿Hiciste cardio?
+                        </label>
+                    </div>
+                    
+                    <div id="cardio_input" class="hidden input-group">
+                        <label for="cal_cardio">¿Cuántas kcal quemaste en cardio?</label>
+                        <input type="number" id="cal_cardio" name="cal_cardio" placeholder="Ej: 400" value="0">
+                    </div>
+                </div>
+
+                <div class="checkbox-group">
+                    <label>
+                        <input type="checkbox" id="hizo_extra" name="hizo_extra">
+                        ¿Hiciste otra actividad pesada/extra?
+                    </label>
+                </div>
+
+                <div id="extra_input" class="hidden input-group">
+                    <label for="cal_extra">¿Cuántas kcal quemaste en esta actividad?</label>
+                    <input type="number" id="cal_extra" name="cal_extra" placeholder="Ej: 200" value="0">
+                </div>
+
+                <button type="submit" class="btn-calcular">Calcular Balance</button>
+            </form>
+
+            <div id="resultado" class="resultado hidden">
+                <h2>Resultados</h2>
+                <div class="resultado-content">
+                    <div class="stat">
+                        <span class="label">Calorías Quemadas:</span>
+                        <span class="value" id="cal_quemadas_resultado">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">Estado:</span>
+                        <span class="value" id="estado_resultado">-</span>
+                    </div>
+                    <div class="stat balance">
+                        <span class="label">Balance:</span>
+                        <span class="value" id="balance_resultado">0 kcal</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

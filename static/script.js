@@ -7,14 +7,6 @@ const btnVolver = document.getElementById('btnVolver');
 const fechaHoy = document.getElementById('fechaHoy');
 const resultado = document.getElementById('resultado');
 
-// Checkboxes y opciones
-const fueGym = document.getElementById('fue_gym');
-const gymOptions = document.getElementById('gym_options');
-const hizoCardio = document.getElementById('hizo_cardio');
-const cardioInput = document.getElementById('cardio_input');
-const hizoExtra = document.getElementById('hizo_extra');
-const extraInput = document.getElementById('extra_input');
-
 // Mostrar fecha actual
 function mostrarFecha() {
     const hoy = new Date();
@@ -22,23 +14,6 @@ function mostrarFecha() {
     const fecha = hoy.toLocaleDateString('es-ES', opciones);
     fechaHoy.textContent = fecha.charAt(0).toUpperCase() + fecha.slice(1);
 }
-
-// Eventos de checkboxes
-fueGym.addEventListener('change', function() {
-    gymOptions.classList.toggle('hidden');
-    if (!this.checked) {
-        cardioInput.classList.add('hidden');
-        hizoCardio.checked = false;
-    }
-});
-
-hizoCardio.addEventListener('change', function() {
-    cardioInput.classList.toggle('hidden');
-});
-
-hizoExtra.addEventListener('change', function() {
-    extraInput.classList.toggle('hidden');
-});
 
 // Obtener clave de fecha para localStorage
 function getDateKey() {
@@ -66,22 +41,8 @@ function cargarRegistroHoy() {
         const registro = historial[hoy];
         document.getElementById('cal_ingeridas').value = registro.cal_ingeridas;
         document.getElementById('cal_caminata').value = registro.cal_caminata || 0;
-        document.getElementById('fue_gym').checked = registro.fue_gym || false;
-        document.getElementById('hizo_cardio').checked = registro.hizo_cardio || false;
-        document.getElementById('cal_cardio').value = registro.cal_cardio || 0;
-        document.getElementById('hizo_extra').checked = registro.hizo_extra || false;
+        document.getElementById('cal_gym').value = registro.cal_gym || 0;
         document.getElementById('cal_extra').value = registro.cal_extra || 0;
-        
-        // Mostrar opciones si están seleccionadas
-        if (registro.fue_gym) {
-            gymOptions.classList.remove('hidden');
-        }
-        if (registro.hizo_cardio) {
-            cardioInput.classList.remove('hidden');
-        }
-        if (registro.hizo_extra) {
-            extraInput.classList.remove('hidden');
-        }
         
         // Mostrar resultado
         mostrarResultado(registro);
@@ -122,9 +83,8 @@ function mostrarResultado(registro) {
     const actividades = [
         { nombre: 'Base metabolismo', valor: 1850, siempre: true },
         { nombre: 'Caminata', valor: registro.cal_caminata, mostrar: registro.cal_caminata > 0 },
-        { nombre: 'Gym', valor: 300, mostrar: registro.fue_gym },
-        { nombre: 'Cardio', valor: registro.cal_cardio, mostrar: registro.hizo_cardio && registro.cal_cardio > 0 },
-        { nombre: 'Otra actividad', valor: registro.cal_extra, mostrar: registro.hizo_extra && registro.cal_extra > 0 }
+        { nombre: 'Entrenamiento (Gym)', valor: registro.cal_gym, mostrar: registro.cal_gym > 0 },
+        { nombre: 'Otra actividad', valor: registro.cal_extra, mostrar: registro.cal_extra > 0 }
     ];
     
     actividades.forEach(act => {
@@ -147,10 +107,7 @@ formulario.addEventListener('submit', async function(e) {
     const data = {
         cal_ingeridas: parseInt(document.getElementById('cal_ingeridas').value),
         cal_caminata: parseInt(document.getElementById('cal_caminata').value) || 0,
-        fue_gym: document.getElementById('fue_gym').checked,
-        hizo_cardio: document.getElementById('hizo_cardio').checked,
-        cal_cardio: parseInt(document.getElementById('cal_cardio').value) || 0,
-        hizo_extra: document.getElementById('hizo_extra').checked,
+        cal_gym: parseInt(document.getElementById('cal_gym').value) || 0,
         cal_extra: parseInt(document.getElementById('cal_extra').value) || 0
     };
     
